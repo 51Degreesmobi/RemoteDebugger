@@ -342,7 +342,7 @@ namespace RemoteDebugger.Commands
             /// Scope chain for this call frame.
             /// </summary>
             [DataMember(Name = "scopeChain")]
-            public Runtime.Scope[] ScopeChain;
+            public Scope[] ScopeChain;
 
             /// <summary>
             /// this object for this call frame.
@@ -359,6 +359,12 @@ namespace RemoteDebugger.Commands
             all,
             none,
             uncaught
+        }
+
+        [DataContract]
+        public struct Scope
+        {
+
         }
 
         #endregion

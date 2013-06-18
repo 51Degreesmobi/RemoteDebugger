@@ -15,7 +15,7 @@ namespace RemoteDebugger.Responses
         [DataMember(Name = "error")]
         public object Error { get; set; }
         [DataMember(Name = "result")]
-        public Dictionary<string, string> Result = new Dictionary<string, string>();
+        public Dictionary<string, object> Result = new Dictionary<string, object>();
 
     }
 }

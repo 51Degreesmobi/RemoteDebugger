@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -100,19 +101,114 @@ namespace RemoteDebugger.Commands
 
         #region Types
 
-        public struct Scope
-        {
 
-        }
-
+        [DataContract]
         public struct RemoteObject
         {
+            /// <summary>
+            /// Object class (constructor) name. Specified for object type values only.
+            /// </summary>
+            [DataMember(Name = "className", IsRequired = false)]
+            public string ClassName;
 
+            /// <summary>
+            /// String representation of the object.
+            /// </summary>
+            [DataMember(Name = "description", IsRequired = false)]
+            public string Description;
+
+            /// <summary>
+            /// Unique object identifier (for non-primitive values).
+            /// </summary>
+            [DataMember(Name = "objectId", IsRequired = false)]
+            public string ObjectId;
+
+            /// <summary>
+            /// enumerated string [ "array" , "date" , "node" , "null" , "regexp" ]. Object subtype hint. Specified for object type values only.
+            /// </summary>
+            [DataMember(Name = "subtype", IsRequired = false)]
+            public string Subtype;
+
+            /// <summary>
+            /// enumerated string [ "boolean" , "function" , "number" , "object" , "string" , "undefined" ]. Object type.
+            /// </summary>
+            [DataMember(Name = "type")]
+            public string Type;
+
+            /// <summary>
+            /// Remote object value (in case of primitive values or JSON values if it was requested).
+            /// </summary>
+            [DataMember(Name = "value")]
+            public object Value;
         }
 
+        [DataContract]
         public struct CallArgument
         {
+            /// <summary>
+            /// Remote object handle.
+            /// </summary>
+            [DataMember(Name = "objectId")]
+            public string ObjectId;
 
+            /// <summary>
+            /// Primitive value.
+            /// </summary>
+            [DataMember(Name = "value")]
+            public object Value;
+        }
+
+        [DataContract]
+        public struct PropertyDescriptor
+        {
+
+            /// <summary>
+            /// True if the type of this property descriptor may be changed and if the property may be deleted from the corresponding object.
+            /// </summary>
+            [DataMember(Name = "configurable")]
+            public bool Configurable;
+
+            /// <summary>
+            /// True if this property shows up during enumeration of the properties on the corresponding object.
+            /// </summary>
+            [DataMember(Name = "enumerable")]
+            public bool Enumerable;
+
+            /// <summary>
+            /// A function which serves as a getter for the property, or undefined if there is no getter (accessor descriptors only).
+            /// </summary>
+            [DataMember(Name = "get", IsRequired = false)]
+            public RemoteObject Get;
+
+            /// <summary>
+            /// Property name.
+            /// </summary>
+            [DataMember(Name = "name")]
+            public string Name;
+
+            /// <summary>
+            /// A function which serves as a setter for the property, or undefined if there is no setter (accessor descriptors only).
+            /// </summary>
+            [DataMember(Name = "set", IsRequired = false)]
+            public RemoteObject Set;
+
+            /// <summary>
+            /// The value associated with the property.
+            /// </summary>
+            [DataMember(Name = "value", IsRequired = false)]
+            public RemoteObject Value;
+
+            /// <summary>
+            /// True if the result was thrown during the evaluation.
+            /// </summary>
+            [DataMember(Name = "wasThrown", IsRequired = false)]
+            public bool? WasThrown;
+
+            /// <summary>
+            /// True if the value associated with the property may be changed (data descriptors only).
+            /// </summary>
+            [DataMember(Name = "writable", IsRequired = false)]
+            public bool? Writable;
         }
 
         #endregion

@@ -30,11 +30,11 @@
         {
             this.urlsTextBox = new System.Windows.Forms.TextBox();
             this.processBut = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvResults = new System.Windows.Forms.DataGridView();
             this.WebSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Requests = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PageWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).BeginInit();
             this.SuspendLayout();
             // 
             // urlsTextBox
@@ -55,17 +55,19 @@
             this.processBut.UseVisualStyleBackColor = true;
             this.processBut.Click += new System.EventHandler(this.processBut_Click);
             // 
-            // dataGridView1
+            // dgvResults
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvResults.AllowUserToAddRows = false;
+            this.dgvResults.AllowUserToDeleteRows = false;
+            this.dgvResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.WebSite,
             this.Requests,
             this.PageWeight});
-            this.dataGridView1.Location = new System.Drawing.Point(13, 145);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(540, 150);
-            this.dataGridView1.TabIndex = 2;
+            this.dgvResults.Location = new System.Drawing.Point(13, 145);
+            this.dgvResults.Name = "dgvResults";
+            this.dgvResults.Size = new System.Drawing.Size(540, 150);
+            this.dgvResults.TabIndex = 2;
             // 
             // WebSite
             // 
@@ -90,12 +92,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(565, 320);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvResults);
             this.Controls.Add(this.processBut);
             this.Controls.Add(this.urlsTextBox);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -105,7 +107,7 @@
 
         private System.Windows.Forms.TextBox urlsTextBox;
         private System.Windows.Forms.Button processBut;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvResults;
         private System.Windows.Forms.DataGridViewTextBoxColumn WebSite;
         private System.Windows.Forms.DataGridViewTextBoxColumn Requests;
         private System.Windows.Forms.DataGridViewTextBoxColumn PageWeight;

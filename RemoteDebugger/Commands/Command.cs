@@ -45,7 +45,7 @@ namespace RemoteDebugger.Commands
 
         public void addParam(string param, bool value)
         {
-            addRawParam(param, value.ToString());
+            addRawParam(param, value.ToString().ToLower());
         }
 
         public void addParam(string param, object value)

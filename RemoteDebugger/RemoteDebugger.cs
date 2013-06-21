@@ -1,6 +1,7 @@
 ﻿using RemoteDebugger.Responses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ namespace RemoteDebugger
         private WebSocket4Net.WebSocket socket;
         private int commandsSent = 1;
         private Dictionary<int, Response> responses = new Dictionary<int, Response>();
-        private Stack<Response> Notifications = new Stack<Response>();
+        private Stack<Notification> Notifications = new Stack<Notification>();
+        private DataContractJsonSerializerSettings settings;
 
         public RemoteDebugger(string url)
         {
@@ -34,7 +36,22 @@ namespace RemoteDebugger
                 socket.Closed += new EventHandler(socketClosed);
                 socket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(socketMessageReceived);
                 socket.Open();
+
+                settings = createJsonSettings();
             }
+        }
+
+
+        DataContractJsonSerializerSettings createJsonSettings()
+        {
+            DataContractJsonSerializerSettings settings =
+                        new DataContractJsonSerializerSettings();
+            settings.UseSimpleDictionaryFormat = true;
+            var knownTypes = new List<Type>();
+            knownTypes.Add(typeof(Commands.Timeline.TimelineEvent));
+            settings.KnownTypes = knownTypes;
+
+            return settings;
         }
 
         public async Task<Response> Send(Commands.Command command)
@@ -69,15 +86,15 @@ namespace RemoteDebugger
             }
         }
 
-        private void addNotification(Response response)
+        private void addNotification(Notification notification)
         {
             lock (Notifications)
             {
-                Notifications.Push(response);
+                Notifications.Push(notification);
             }
         }
 
-        public Response GetNotification()
+        public Notification GetNotification()
         {
             if (GetNotificationCount() > 0)
             {
@@ -123,31 +140,40 @@ namespace RemoteDebugger
         {
             using (var ms = new System.IO.MemoryStream(Encoding.UTF8.GetBytes(e.Message)))
             {
-                DataContractJsonSerializerSettings settings =
-                        new DataContractJsonSerializerSettings();
-                settings.UseSimpleDictionaryFormat = true;
-
-                DataContractJsonSerializer serializer =
-                        new DataContractJsonSerializer(typeof(Response), settings);
-
-                var response = (Response)serializer.ReadObject(ms);
-                if (response.Id != null)
+                if (e.Message.Contains("id"))
                 {
+                    DataContractJsonSerializer serializer =
+                            new DataContractJsonSerializer(typeof(Response), settings);
+
+                    var response = (Response)serializer.ReadObject(ms);
                     addResponse(response);
                 }
                 else
                 {
+                    File.AppendAllText("debug.txt", e.Message + Environment.NewLine);
+                    DataContractJsonSerializer serializer =
+                            new DataContractJsonSerializer(typeof(Notification), settings);
+
+                    var response = (Notification)serializer.ReadObject(ms);
                     addNotification(response);
                 }
             }
         }
 
-        ~RemoteDebugger()
+        public void Close()
         {
             if (socket.State == WebSocketState.Open)
             {
                 socket.Close();
             }
         }
+
+        //~RemoteDebugger()
+        //{
+        //    if (socket.State == WebSocketState.Open)
+        //    {
+        //        socket.Close();
+        //    }
+        //}
     }
 }

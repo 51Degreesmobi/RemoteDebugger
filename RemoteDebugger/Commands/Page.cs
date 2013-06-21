@@ -8,6 +8,8 @@ namespace RemoteDebugger.Commands
 {
     public static class Page
     {
+        #region Methods
+
         /// <summary>
         /// Disables page domain notifications.
         /// </summary>
@@ -63,6 +65,14 @@ namespace RemoteDebugger.Commands
             }
             return com;
         }
+
+        #endregion
+
+        #region Types
+
+
+
+        #endregion
 
 
     }

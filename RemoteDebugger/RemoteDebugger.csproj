@@ -68,6 +68,7 @@
     <Compile Include="Commands\Timeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteDebugger.cs" />
+    <Compile Include="Responses\Notification.cs" />
     <Compile Include="Responses\Response.cs" />
   </ItemGroup>
   <ItemGroup>

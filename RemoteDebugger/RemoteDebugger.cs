@@ -35,12 +35,11 @@ namespace RemoteDebugger
                 //socket.Error += new EventHandler<ErrorEventArgs>(socketError);
                 socket.Closed += new EventHandler(socketClosed);
                 socket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(socketMessageReceived);
-                socket.Open();
+                //socket.Open();
 
                 settings = createJsonSettings();
             }
         }
-
 
         DataContractJsonSerializerSettings createJsonSettings()
         {
@@ -56,10 +55,23 @@ namespace RemoteDebugger
 
         public async Task<Response> Send(Commands.Command command)
         {
+            
             int id = commandsSent;
             var mes = command.GetMessage(id);
             commandsSent++;
             bool hasResponse = false;
+            if (socket.State != WebSocketState.Open)
+            {
+                if (socket.State == WebSocketState.None || socket.State == WebSocketState.Closed)
+                {
+                    socket.Open();
+                    while (socket.State == WebSocketState.Connecting)
+                        await Task.Delay(100);
+
+                    if (socket.State != WebSocketState.Open)
+                        throw new Exception("Socket could not be opened.");
+                }
+            }
             socket.Send(mes);
             while (!hasResponse)
             {

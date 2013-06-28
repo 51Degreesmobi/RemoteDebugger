@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RemoteDebuggerGUI
@@ -14,6 +15,19 @@ namespace RemoteDebuggerGUI
     public partial class Form1 : Form
     {
         RemoteDebugger.RemoteDebugger debugger;
+
+        class ResourceInfo
+        {
+            public int PageWeight;
+            public int PageWeightCompressed;
+        }
+
+
+        /// <summary>
+        /// The time to wait in between requests in seconds.
+        /// </summary>
+        private int waitTime = 45;
+
         public Form1()
         {
             InitializeComponent();
@@ -32,11 +46,10 @@ namespace RemoteDebuggerGUI
                 
                 await debugger.Send(Page.Navigate(url));
 
-                // wait 10 seconds
-                Thread.Sleep(10000);
+                await Task.Delay(waitTime * 1000);
 
                 await debugger.Send(Network.Disable());
-                Dictionary<string, int> data = new Dictionary<string, int>();
+                var data = new Dictionary<string, ResourceInfo>();
                 while (debugger.GetNotificationCount() > 0)
                 {
 
@@ -47,18 +60,20 @@ namespace RemoteDebuggerGUI
                             {
                                 try
                                 {
-                                    // int dataLength = (int)notification.Params["dataLength"];
-                                    int dataLength = (int)notification.Params["encodedDataLength"];
+                                    int dataLength = (int)notification.Params["dataLength"];
+                                    int encodedDataLength = (int)notification.Params["encodedDataLength"];
                                     string requestId = (string)notification.Params["requestId"];
                                     if (data.ContainsKey(requestId))
-                                        data[requestId] += dataLength;
+                                    {
+                                        data[requestId].PageWeight += dataLength;
+                                        data[requestId].PageWeightCompressed += encodedDataLength;
+                                    }
                                     else
-                                        data.Add(requestId, dataLength);
+                                        data.Add(requestId, new ResourceInfo() { PageWeight = dataLength, PageWeightCompressed = encodedDataLength });
                                 }
                                 catch (Exception ex)
                                 {
-                                    int k = 0;
-                                    k++;
+                                    
                                 }
                                 break;
                             }
@@ -68,15 +83,12 @@ namespace RemoteDebuggerGUI
                                 try
                                 {
                                     string requestId = (string)notification.Params["requestId"];
-                                    if (data.ContainsKey(requestId))
-                                        data[requestId] += 0;
-                                    else
-                                        data.Add(requestId, 0);
+                                    if (!data.ContainsKey(requestId))
+                                        data.Add(requestId, new ResourceInfo());
                                 }
                                 catch (Exception ex)
                                 {
-                                    int k = 0;
-                                    k++;
+                                    
                                 }
                                 break;
                             }
@@ -84,7 +96,7 @@ namespace RemoteDebuggerGUI
                             break;
                     }
                 }
-                dgvResults.Rows.Add(url, data.Keys.Count, data.Sum(d => d.Value));
+                dgvResults.Rows.Add(url, data.Keys.Count, data.Sum(d => d.Value.PageWeight), data.Sum(d => d.Value.PageWeightCompressed));
             }
 
             //debugger.Close();

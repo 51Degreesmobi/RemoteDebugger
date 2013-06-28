@@ -34,6 +34,7 @@
             this.WebSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Requests = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PageWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PageWeightCompressed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             this.processBut.Name = "processBut";
             this.processBut.Size = new System.Drawing.Size(75, 23);
             this.processBut.TabIndex = 1;
-            this.processBut.Text = "Text";
+            this.processBut.Text = "Test";
             this.processBut.UseVisualStyleBackColor = true;
             this.processBut.Click += new System.EventHandler(this.processBut_Click);
             // 
@@ -63,7 +64,8 @@
             this.dgvResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.WebSite,
             this.Requests,
-            this.PageWeight});
+            this.PageWeight,
+            this.PageWeightCompressed});
             this.dgvResults.Location = new System.Drawing.Point(13, 145);
             this.dgvResults.Name = "dgvResults";
             this.dgvResults.Size = new System.Drawing.Size(540, 150);
@@ -83,9 +85,14 @@
             // 
             // PageWeight
             // 
-            this.PageWeight.HeaderText = "PageWeight";
+            this.PageWeight.HeaderText = "Page Weight (bytes)";
             this.PageWeight.Name = "PageWeight";
             this.PageWeight.ReadOnly = true;
+            // 
+            // PageWeightCompressed
+            // 
+            this.PageWeightCompressed.HeaderText = "Compressed Page Weight (bytes)";
+            this.PageWeightCompressed.Name = "PageWeightCompressed";
             // 
             // Form1
             // 
@@ -111,6 +118,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn WebSite;
         private System.Windows.Forms.DataGridViewTextBoxColumn Requests;
         private System.Windows.Forms.DataGridViewTextBoxColumn PageWeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PageWeightCompressed;
     }
 }
 

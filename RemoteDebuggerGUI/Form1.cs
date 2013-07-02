@@ -25,8 +25,8 @@ namespace RemoteDebuggerGUI
 
         /// <summary>
         /// The time to wait in between requests in seconds.
-        /// </summary>
-        private int waitTime = 45;
+        /// </summary> desk
+        private int waitTime = 20;
 
         public Form1()
         {
@@ -36,10 +36,12 @@ namespace RemoteDebuggerGUI
 
         private async void processBut_Click(object sender, EventArgs e)
         {
-            var urls = urlsTextBox.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            var urls = urlsTextBox.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)
+                .Select(u => u.StartsWith("http://") || u.StartsWith("https://") ? u : "http://" + u).ToArray();
             var responses = new Dictionary<string, List<RemoteDebugger.Commands.Network.Response>>();
             foreach (var url in urls)
             {
+                
                 responses.Add(url, new List<RemoteDebugger.Commands.Network.Response>());
                 var cacheRes = await debugger.Send(Network.SetCacheDisabled(true));
                 await debugger.Send(Network.Enable());
@@ -96,7 +98,7 @@ namespace RemoteDebuggerGUI
                             break;
                     }
                 }
-                dgvResults.Rows.Add(url, data.Keys.Count, data.Sum(d => d.Value.PageWeight), data.Sum(d => d.Value.PageWeightCompressed));
+                dgvResults.Rows.Add(url, data.Keys.Count, data.Sum(d => d.Value.PageWeight).ToString("N0"), data.Sum(d => d.Value.PageWeightCompressed).ToString("N0"));
             }
 
             //debugger.Close();

@@ -35,20 +35,23 @@
             this.Requests = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PageWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PageWeightCompressed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // urlsTextBox
             // 
-            this.urlsTextBox.Location = new System.Drawing.Point(12, 12);
+            this.urlsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.urlsTextBox.Location = new System.Drawing.Point(23, 14);
             this.urlsTextBox.Multiline = true;
             this.urlsTextBox.Name = "urlsTextBox";
-            this.urlsTextBox.Size = new System.Drawing.Size(541, 96);
+            this.urlsTextBox.Size = new System.Drawing.Size(519, 121);
             this.urlsTextBox.TabIndex = 0;
             // 
             // processBut
             // 
-            this.processBut.Location = new System.Drawing.Point(13, 115);
+            this.processBut.Location = new System.Drawing.Point(23, 141);
             this.processBut.Name = "processBut";
             this.processBut.Size = new System.Drawing.Size(75, 23);
             this.processBut.TabIndex = 1;
@@ -66,9 +69,10 @@
             this.Requests,
             this.PageWeight,
             this.PageWeightCompressed});
-            this.dgvResults.Location = new System.Drawing.Point(13, 145);
+            this.dgvResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvResults.Location = new System.Drawing.Point(23, 176);
             this.dgvResults.Name = "dgvResults";
-            this.dgvResults.Size = new System.Drawing.Size(540, 150);
+            this.dgvResults.Size = new System.Drawing.Size(519, 121);
             this.dgvResults.TabIndex = 2;
             // 
             // WebSite
@@ -94,19 +98,40 @@
             this.PageWeightCompressed.HeaderText = "Compressed Page Weight (bytes)";
             this.PageWeightCompressed.Name = "PageWeightCompressed";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.processBut, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.urlsTextBox, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.dgvResults, 1, 4);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(565, 320);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(565, 320);
-            this.Controls.Add(this.dgvResults);
-            this.Controls.Add(this.processBut);
-            this.Controls.Add(this.urlsTextBox);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Remote Tester";
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -119,6 +144,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Requests;
         private System.Windows.Forms.DataGridViewTextBoxColumn PageWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn PageWeightCompressed;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 
